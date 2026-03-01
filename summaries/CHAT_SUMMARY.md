@@ -70,3 +70,10 @@ Keep this file focused on historical interaction summaries, not step-by-step run
 - AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
 - Commit: committed and pushed in this step.
 
+### 2026-03-01 14:45 (local)
+- User Prompt: commit commit and push with comment removed or scripts/init_all.py from start_service.sh since setup.sh calls this code
+- Changes: Confirmed and prepared the `scripts/start_services.sh` header update removing `scripts/init_all.py` reference from the setup assumption comment.
+- Validation: Reviewed git diff for `scripts/start_services.sh` to verify only the intended comment-line change.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: committed and pushed in this step.
+

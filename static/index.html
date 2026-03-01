@@ -1,0 +1,1548 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>sliderule Trades Console</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+      :root {
+        --ink: #0c1016;
+        --muted: #5a6573;
+        --paper: #f4f0e9;
+        --paper-2: #efe8dd;
+        --accent: #ff5f1f;
+        --accent-dark: #c44614;
+        --line: #d6cbbd;
+        --shadow: 0 24px 60px rgba(12, 16, 22, 0.18);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Space Grotesk", system-ui, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 10% 20%, rgba(255, 95, 31, 0.18), transparent 40%),
+          radial-gradient(circle at 80% 10%, rgba(12, 16, 22, 0.18), transparent 35%),
+          linear-gradient(135deg, #f5efe8 0%, #f1e4d6 45%, #f8f6f2 100%);
+        min-height: 100vh;
+      }
+
+      header {
+        padding: 32px 6vw 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .brand {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-size: clamp(2rem, 3vw, 2.7rem);
+        letter-spacing: -0.02em;
+      }
+
+      .brand p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .status-chip {
+        background: #0c1016;
+        color: #fef7ee;
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        letter-spacing: 0.02em;
+      }
+
+      main {
+        padding: 8px 6vw 64px;
+        display: grid;
+        grid-template-columns: minmax(280px, 420px) minmax(280px, 1fr);
+        gap: 28px;
+      }
+
+      .panel {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: var(--shadow);
+        animation: rise 0.6s ease both;
+      }
+
+      .panel.span-two {
+        grid-column: 1 / -1;
+      }
+
+      .panel h2 {
+        margin: 0 0 12px;
+        font-size: 1.2rem;
+      }
+
+      .panel p {
+        margin: 0 0 16px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      .grid.two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .stat-card {
+        background: #fff;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        padding: 14px;
+      }
+
+      .stat-card h3 {
+        margin: 0 0 6px;
+        font-size: 0.85rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .stat-card .value {
+        font-size: 1.4rem;
+        font-weight: 600;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #fff;
+        border: 1px solid var(--line);
+        font-size: 0.8rem;
+      }
+
+      .mono {
+        font-family: "IBM Plex Mono", monospace;
+      }
+
+      label {
+        font-size: 0.85rem;
+        color: var(--muted);
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: #fffdf9;
+        font-family: inherit;
+        font-size: 0.95rem;
+      }
+
+      textarea {
+        min-height: 90px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.85rem;
+      }
+
+      button {
+        border: none;
+        border-radius: 999px;
+        padding: 12px 18px;
+        font-weight: 600;
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 12px 28px rgba(255, 95, 31, 0.3);
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 16px 32px rgba(255, 95, 31, 0.35);
+      }
+
+      button.secondary {
+        background: #111826;
+        box-shadow: 0 12px 28px rgba(17, 24, 38, 0.2);
+      }
+
+      .is-hidden {
+        display: none;
+      }
+
+      .helper {
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+
+      .result {
+        padding: 12px;
+        background: #fff;
+        border: 1px dashed var(--line);
+        border-radius: 12px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.85rem;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 10px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      th {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+
+      .empty {
+        font-style: italic;
+        color: var(--muted);
+        padding: 12px 0;
+      }
+
+      .notice {
+        background: #121720;
+        color: #f8efe4;
+        padding: 14px 16px;
+        border-radius: 12px;
+        font-size: 0.9rem;
+      }
+
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 960px) {
+        main {
+          grid-template-columns: 1fr;
+        }
+
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <h1>sliderule Trades Console</h1>
+        <p id="backendSubtitle">Book and inspect single-record trades on the Citus-backed event store.</p>
+      </div>
+      <div class="status-chip" id="backendChip">Citus ready</div>
+    </header>
+
+    <main>
+      <section class="panel">
+        <h2>Book a trade</h2>
+        <p>Open events book a trade. Cancel and novation events can only reference open trades (modify 1:1 trades only).</p>
+
+        <form id="trade-form" class="grid" autocomplete="off">
+          <div>
+            <label for="book1Id">Book 1 id</label>
+            <select id="book1Id" name="book1_id" required></select>
+            <span class="helper">Select from registered books.</span>
+          </div>
+          <div>
+            <label for="book2Id">Book 2 id</label>
+            <select id="book2Id" name="book2_id" required></select>
+            <span class="helper">Select from registered books.</span>
+          </div>
+          <div>
+            <label for="book1Side">Book 1 side</label>
+            <select id="book1Side" name="book1_side" required>
+              <option value="" disabled selected>Select BUY or SELL</option>
+              <option value="BUY">BUY</option>
+              <option value="SELL">SELL</option>
+            </select>
+          </div>
+          <div class="grid two">
+            <div>
+              <label for="instrumentKey">Instrument key</label>
+              <select id="instrumentKey" name="instrument_key" required></select>
+              <span class="helper" id="instrumentCloseHint">Select an NYSE instrument.</span>
+            </div>
+            <div>
+              <label for="quantity">Quantity</label>
+              <input id="quantity" name="quantity" type="number" step="0.0001" placeholder="100" required />
+            </div>
+          </div>
+          <div class="grid two">
+            <div>
+              <label for="price">Price</label>
+              <input id="price" name="price" type="number" step="0.0001" placeholder="185.25" required />
+            </div>
+            <div>
+              <label for="currency">Currency</label>
+              <input id="currency" name="currency" placeholder="USD" value="USD" required />
+            </div>
+          </div>
+          <div class="grid two">
+            <div>
+              <label for="validTime">Valid time (UTC)</label>
+              <input id="validTime" name="valid_time" type="datetime-local" required />
+            </div>
+            <div>
+              <label for="createdBy">Created by</label>
+              <input id="createdBy" name="created_by" placeholder="loading user..." readonly />
+            </div>
+          </div>
+          <div class="grid two">
+            <div>
+              <label for="eventType">Event type</label>
+              <select id="eventType" name="type_id" required>
+                <option value="1" selected>OpenEvent (1) - Book new trade</option>
+                <option value="2">CancelEvent (2) - Reverse an open trade</option>
+                <option value="5">NovationEvent (5) - Transfer open trade</option>
+              </select>
+            </div>
+            <div id="cancelTradeWrap" class="is-hidden">
+              <label for="cancelTrade">Reference trade</label>
+              <select id="cancelTrade"></select>
+              <span class="helper">Select an open trade to cancel or novate. Only OpenEvent(1) trades can be referenced.</span>
+            </div>
+          </div>
+          <div>
+            <label for="nonEconomic">Non economic data (JSON)</label>
+            <textarea id="nonEconomic" name="non_economic_data" placeholder='{"source":"ui"}'></textarea>
+          </div>
+          <div class="grid two">
+            <button type="submit">Book trade</button>
+            <button type="button" class="secondary" id="fillSample">Fill sample</button>
+          </div>
+        </form>
+
+        <div class="result" id="bookResult">Awaiting trade booking.</div>
+      </section>
+
+      <section class="panel">
+        <h2>Positions</h2>
+        <p>Positions as-of two timelines: business valid time and recorded system time. Includes Shares and Proceeds types.</p>
+
+        <div class="grid">
+          <div>
+            <label for="positionsBookId">Book id</label>
+            <select id="positionsBookId"></select>
+          </div>
+          <div class="grid two">
+            <div>
+              <label for="positionsValidTime">Valid time as-of (UTC)</label>
+              <input id="positionsValidTime" type="datetime-local" placeholder="Latest (blank)" />
+            </div>
+            <div>
+              <label for="positionsSystemTime">System time as-of (UTC)</label>
+              <input id="positionsSystemTime" type="datetime-local" placeholder="Latest (blank)" />
+            </div>
+          </div>
+          <span class="helper">Leave either timestamp blank to use latest. Set one or both to query historical positions.</span>
+          <div>
+            <button id="refreshBookViews" class="secondary">Refresh</button>
+          </div>
+        </div>
+
+        <div id="positionsOutput" class="empty">No positions loaded.</div>
+
+        <div style="margin-top: 16px;">
+          <h3 class="mono">Trades for book</h3>
+          <div id="tradesByBookOutput" class="empty">No trades loaded.</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>View trade events</h2>
+        <p>Lookup a trade by its event id.</p>
+
+        <div class="grid">
+          <div>
+            <label for="tradeEventId">Event id</label>
+            <input id="tradeEventId" placeholder="event uuid" />
+          </div>
+          <button id="fetchTrade" class="secondary">Fetch trade</button>
+        </div>
+
+        <div id="tradeOutput" class="empty">No trade loaded.</div>
+
+        <div class="notice">
+          Use <code>/positions/{book_id}?valid_time=...&system_time=...</code> to query positions at a point in time.
+        </div>
+      </section>
+
+      <section class="panel span-two">
+        <h2 id="statusTitle">Cluster status</h2>
+        <p id="statusDescription">Live view of the Citus coordinator, workers, shards, and database activity.</p>
+
+        <div class="stat-grid" id="statusCards">
+          <div class="stat-card">
+            <h3 id="statShardsLabel">Shards</h3>
+            <div class="value" id="statShards">--</div>
+          </div>
+          <div class="stat-card">
+            <h3 id="statReplicationLabel">Replication</h3>
+            <div class="value" id="statReplication">--</div>
+          </div>
+          <div class="stat-card">
+            <h3>Trade events</h3>
+            <div class="value" id="statTrades">--</div>
+          </div>
+          <div class="stat-card">
+            <h3 id="statConnectionsLabel">Connections</h3>
+            <div class="value" id="statConnections">--</div>
+          </div>
+        </div>
+
+        <div class="grid two" style="margin-bottom: 16px;">
+          <div class="pill mono" id="statusUpdated">Last update: --</div>
+          <button type="button" class="secondary" id="refreshStatus">Refresh status</button>
+        </div>
+
+        <div class="grid two">
+          <div>
+            <h3 class="mono" id="workerHeading">Workers</h3>
+            <div id="workerTable" class="result">Loading workers...</div>
+          </div>
+          <div>
+            <h3 class="mono" id="dbStatsHeading">Database activity</h3>
+            <div id="dbStats" class="result">Loading stats...</div>
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top: 18px;">
+          <h3 class="mono" id="placementHeading">Shard placements</h3>
+          <div id="placementTable" class="result">Loading placements...</div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const tradeForm = document.getElementById("trade-form");
+      const bookResult = document.getElementById("bookResult");
+      const fillSample = document.getElementById("fillSample");
+      const fetchTradeButton = document.getElementById("fetchTrade");
+      const tradeOutput = document.getElementById("tradeOutput");
+      const tradeEventIdInput = document.getElementById("tradeEventId");
+      const positionsBookIdInput = document.getElementById("positionsBookId");
+      const positionsValidTimeInput = document.getElementById("positionsValidTime");
+      const positionsSystemTimeInput = document.getElementById("positionsSystemTime");
+      const refreshBookViewsButton = document.getElementById("refreshBookViews");
+      const positionsOutput = document.getElementById("positionsOutput");
+      const tradesByBookOutput = document.getElementById("tradesByBookOutput");
+      const book1Select = document.getElementById("book1Id");
+      const book2Select = document.getElementById("book2Id");
+      const book1SideSelect = document.getElementById("book1Side");
+      const eventTypeSelect = document.getElementById("eventType");
+      const cancelTradeSelect = document.getElementById("cancelTrade");
+      const cancelTradeWrap = document.getElementById("cancelTradeWrap");
+      const instrumentKeyInput = document.getElementById("instrumentKey");
+      const instrumentCloseHint = document.getElementById("instrumentCloseHint");
+      const quantityInput = document.getElementById("quantity");
+      const priceInput = document.getElementById("price");
+      const currencyInput = document.getElementById("currency");
+      const validTimeInput = document.getElementById("validTime");
+      const createdByInput = document.getElementById("createdBy");
+      const refreshStatusButton = document.getElementById("refreshStatus");
+      const backendSubtitle = document.getElementById("backendSubtitle");
+      const backendChip = document.getElementById("backendChip");
+      const statusTitle = document.getElementById("statusTitle");
+      const statusDescription = document.getElementById("statusDescription");
+      const statShards = document.getElementById("statShards");
+      const statShardsLabel = document.getElementById("statShardsLabel");
+      const statReplication = document.getElementById("statReplication");
+      const statReplicationLabel = document.getElementById("statReplicationLabel");
+      const statTrades = document.getElementById("statTrades");
+      const statConnections = document.getElementById("statConnections");
+      const statConnectionsLabel = document.getElementById("statConnectionsLabel");
+      const workerHeading = document.getElementById("workerHeading");
+      const dbStatsHeading = document.getElementById("dbStatsHeading");
+      const placementHeading = document.getElementById("placementHeading");
+      const workerTable = document.getElementById("workerTable");
+      const dbStats = document.getElementById("dbStats");
+      const placementTable = document.getElementById("placementTable");
+      const statusUpdated = document.getElementById("statusUpdated");
+      const cancelTradeMap = new Map();
+      const tradesByBookMap = new Map();
+      const instrumentsByKey = new Map();
+      let positionsAsOfUserEdited = false;
+
+      const formatNumber = (value) => {
+        if (value === null || value === undefined) {
+          return "--";
+        }
+        return Number(value).toLocaleString();
+      };
+
+      const renderTable = (headers, rows) => {
+        const head = headers.map((h) => `<th>${h}</th>`).join("");
+        const body = rows.map((row) => `
+          <tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>
+        `).join("");
+
+        return `
+          <table>
+            <thead><tr>${head}</tr></thead>
+            <tbody>${body}</tbody>
+          </table>
+        `;
+      };
+
+      const postTrade = async (payload) => {
+        const response = await fetch("/trades", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          const message = await response.text();
+          throw new Error(message || "Request failed");
+        }
+
+        return response.json();
+      };
+
+      const setStatusPresentation = (backend) => {
+        if (backend === "cockroachdb") {
+          backendSubtitle.textContent = "Book and inspect single-record trades on the CockroachDB-backed event store.";
+          backendChip.textContent = "CockroachDB ready";
+          statusTitle.textContent = "CockroachDB status";
+          statusDescription.textContent = "Live view of CockroachDB mode, event volume, and database summary.";
+          statShardsLabel.textContent = "Mode";
+          statReplicationLabel.textContent = "Sharding";
+          statConnectionsLabel.textContent = "Backend";
+          workerHeading.textContent = "Node summary";
+          dbStatsHeading.textContent = "Database summary";
+          placementHeading.textContent = "Distribution";
+          return;
+        }
+
+        backendSubtitle.textContent = "Book and inspect single-record trades on the Citus-backed event store.";
+        backendChip.textContent = "Citus ready";
+        statusTitle.textContent = "Cluster status";
+        statusDescription.textContent = "Live view of the Citus coordinator, workers, shards, and database activity.";
+        statShardsLabel.textContent = "Shards";
+        statReplicationLabel.textContent = "Replication";
+        statConnectionsLabel.textContent = "Connections";
+        workerHeading.textContent = "Workers";
+        dbStatsHeading.textContent = "Database activity";
+        placementHeading.textContent = "Shard placements";
+      };
+
+      const loadBackendIdentity = async () => {
+        try {
+          const response = await fetch("/db-backend");
+          if (!response.ok) {
+            return;
+          }
+          const data = await response.json();
+          if (data.backend === "cockroachdb" || data.backend === "citus") {
+            setStatusPresentation(data.backend);
+          }
+        } catch (_) {
+        }
+      };
+
+      const loadClusterStatus = async () => {
+        try {
+          const response = await fetch("/status/cluster");
+          if (!response.ok) {
+            throw new Error("Status fetch failed");
+          }
+          const data = await response.json();
+
+          const backend = data.backend === "cockroachdb" ? "cockroachdb" : "citus";
+          setStatusPresentation(backend);
+
+          if (backend === "cockroachdb") {
+            statShards.textContent = data.mode || "--";
+            statReplication.textContent = "internal";
+            statTrades.textContent = formatNumber(data.counts?.trade_events);
+            statConnections.textContent = "cockroachdb";
+
+            workerTable.innerHTML = renderTable(["Property", "Value"], [
+              ["Backend", "cockroachdb"],
+              ["Mode", data.mode || "single-node"],
+              ["Books", formatNumber(data.counts?.books)],
+              ["Instruments", formatNumber(data.counts?.instruments)]
+            ]);
+
+            dbStats.innerHTML = renderTable(["Metric", "Value"], [
+              ["Trade events", formatNumber(data.counts?.trade_events)],
+              ["Books", formatNumber(data.counts?.books)],
+              ["Instruments", formatNumber(data.counts?.instruments)]
+            ]);
+            statusUpdated.textContent = "Last update: " + new Date().toLocaleTimeString();
+            return;
+          }
+
+          statShards.textContent = formatNumber(data.shards.count);
+          statReplication.textContent = formatNumber(data.shards.replication_factor);
+          statTrades.textContent = formatNumber(data.counts.trade_events);
+          statConnections.textContent = formatNumber(data.db_stats.connections);
+          statusUpdated.textContent = "Last update: " + new Date().toLocaleTimeString();
+
+          const nodeRows = data.nodes.map((node) => [
+            node.name,
+            node.role,
+            node.port,
+            node.active ? "active" : "inactive"
+          ]);
+          workerTable.innerHTML = nodeRows.length
+            ? renderTable(["Node", "Role", "Port", "State"], nodeRows)
+            : "No nodes registered.";
+
+          const statsRows = [
+            ["Commits", formatNumber(data.db_stats.xact_commit)],
+            ["Rollbacks", formatNumber(data.db_stats.xact_rollback)],
+            ["Blocks hit", formatNumber(data.db_stats.blks_hit)],
+            ["Blocks read", formatNumber(data.db_stats.blks_read)],
+            ["Rows returned", formatNumber(data.db_stats.tup_returned)],
+            ["Rows fetched", formatNumber(data.db_stats.tup_fetched)],
+            ["Rows inserted", formatNumber(data.db_stats.tup_inserted)],
+            ["Rows updated", formatNumber(data.db_stats.tup_updated)],
+            ["Rows deleted", formatNumber(data.db_stats.tup_deleted)]
+          ];
+          dbStats.innerHTML = renderTable(["Metric", "Value"], statsRows);
+        } catch (err) {
+          workerTable.textContent = "Status unavailable: " + err.message;
+          dbStats.textContent = "Status unavailable: " + err.message;
+        }
+      };
+
+      const loadShardStatus = async () => {
+        try {
+          const response = await fetch("/status/shards");
+          if (!response.ok) {
+            throw new Error("Shard fetch failed");
+          }
+          const data = await response.json();
+
+          if (data.backend === "cockroachdb") {
+            placementTable.innerHTML = renderTable(["Property", "Value"], [
+              ["Backend", "cockroachdb"],
+              ["Sharding", data.sharding || "internal"],
+              ["Details", data.note || "CockroachDB manages distribution internally"]
+            ]);
+            return;
+          }
+
+          const placementRows = data.placements.map((placement) => [
+            placement.shard_id,
+            placement.node,
+            placement.port,
+            placement.state
+          ]);
+
+          placementTable.innerHTML = placementRows.length
+            ? renderTable(["Shard", "Node", "Port", "State"], placementRows)
+            : "No shard placements found.";
+        } catch (err) {
+          placementTable.textContent = "Shard status unavailable: " + err.message;
+        }
+      };
+
+      const toUtcIso = (localValue) => {
+        if (!localValue) return null;
+        const localDate = new Date(localValue);
+        return localDate.toISOString();
+      };
+
+      const toLocalDateTimeValue = (date = new Date()) => {
+        return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+          .toISOString()
+          .slice(0, 16);
+      };
+
+      const formatEventType = (eventType, typeId = null) => {
+        const byTypeId = {
+          1: "open",
+          2: "cancel",
+          5: "novation"
+        };
+
+        if (typeId !== null && byTypeId[typeId]) {
+          const normalized = String(eventType || "").trim().toLowerCase();
+          if (!normalized || normalized === "trade") {
+            return byTypeId[typeId];
+          }
+        }
+
+        if (!eventType) {
+          return "unknown";
+        }
+
+        return String(eventType)
+          .replace(/event$/i, "")
+          .replace(/([a-z])([A-Z])/g, "$1 $2")
+          .trim()
+          .toLowerCase();
+      };
+
+      const setDefaultAsOfTimes = () => {
+        positionsValidTimeInput.value = "";
+        positionsSystemTimeInput.value = "";
+      };
+
+      const setSelectOptions = (selectEl, books, placeholder) => {
+        selectEl.innerHTML = "";
+        const placeholderOption = document.createElement("option");
+        placeholderOption.value = "";
+        placeholderOption.textContent = placeholder;
+        placeholderOption.disabled = true;
+        placeholderOption.selected = true;
+        selectEl.appendChild(placeholderOption);
+
+        books.forEach((book) => {
+          const option = document.createElement("option");
+          option.value = book.book_id;
+          option.textContent = `${book.book_name} (${book.book_id})`;
+          selectEl.appendChild(option);
+        });
+      };
+
+      const setTradeOptions = (selectEl, trades, placeholder) => {
+        selectEl.innerHTML = "";
+        const placeholderOption = document.createElement("option");
+        placeholderOption.value = "";
+        placeholderOption.textContent = placeholder;
+        placeholderOption.disabled = true;
+        placeholderOption.selected = true;
+        selectEl.appendChild(placeholderOption);
+
+        trades.forEach((trade) => {
+          const option = document.createElement("option");
+          option.value = trade.event_id;
+          option.textContent = `${trade.event_id.slice(0, 8)} | ${trade.book1_side} ${trade.quantity} ${trade.instrument_key} @ ${trade.price} ${trade.currency}`;
+          selectEl.appendChild(option);
+          cancelTradeMap.set(trade.event_id, trade);
+        });
+
+        selectEl.disabled = trades.length === 0;
+      };
+
+      const setInstrumentOptions = (selectEl, instruments, placeholder) => {
+        selectEl.innerHTML = "";
+        const placeholderOption = document.createElement("option");
+        placeholderOption.value = "";
+        placeholderOption.textContent = placeholder;
+        placeholderOption.disabled = true;
+        placeholderOption.selected = true;
+        selectEl.appendChild(placeholderOption);
+
+        instrumentsByKey.clear();
+        instruments.forEach((instrument) => {
+          const option = document.createElement("option");
+          option.value = instrument.instrument_key;
+          option.textContent = `${instrument.instrument_key} — ${instrument.description} (${instrument.exchange})`;
+          selectEl.appendChild(option);
+          instrumentsByKey.set(instrument.instrument_key, instrument);
+        });
+      };
+
+      const applyInstrumentDefaultPrice = (force = false) => {
+        const instrument = instrumentsByKey.get(instrumentKeyInput.value);
+        if (!instrument) {
+          instrumentCloseHint.textContent = "Select an NYSE instrument.";
+          return;
+        }
+
+        if (instrument.last_close !== null && instrument.last_close !== undefined) {
+          instrumentCloseHint.textContent = `Most recent close (${instrument.last_close_date || "n/a"}): ${instrument.last_close}`;
+          if (force || (eventTypeSelect.value === "1" && !priceInput.value.trim())) {
+            priceInput.value = Number(instrument.last_close).toFixed(2);
+          }
+          return;
+        }
+
+        instrumentCloseHint.textContent = "No recent close available for this instrument.";
+      };
+
+      const refreshPositions = async (bookId) => {
+        if (!bookId) {
+          return;
+        }
+
+        const validAsOf = toUtcIso(positionsValidTimeInput.value);
+        const systemAsOf = toUtcIso(positionsSystemTimeInput.value);
+        const query = new URLSearchParams();
+        if (validAsOf) {
+          query.set("valid_time", validAsOf);
+        }
+        if (systemAsOf) {
+          query.set("system_time", systemAsOf);
+        }
+
+        positionsOutput.textContent = "Loading positions...";
+        positionsOutput.className = "empty";
+
+        try {
+          const response = await fetch(`/positions/${bookId}?${query.toString()}`);
+          if (!response.ok) {
+            positionsOutput.textContent = "Positions not found.";
+            return;
+          }
+          const positions = await response.json();
+          if (!positions.length) {
+            positionsOutput.textContent = "No positions returned.";
+            return;
+          }
+
+          const rows = positions.map((pos) => `
+            <tr>
+              <td>${pos.position_type}</td>
+              <td>${pos.instrument_key}</td>
+              <td>${pos.quantity}</td>
+              <td>${pos.valid_time}</td>
+            </tr>
+          `).join("");
+
+          positionsOutput.className = "result";
+          positionsOutput.innerHTML = `
+            <table>
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Instrument</th>
+                  <th>Quantity</th>
+                  <th>Valid Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows}
+              </tbody>
+            </table>
+          `;
+        } catch (err) {
+          positionsOutput.textContent = "Fetch failed: " + err.message;
+        }
+      };
+
+      const refreshTrades = async (bookId) => {
+        if (!bookId) {
+          return;
+        }
+
+        const validAsOf = toUtcIso(positionsValidTimeInput.value);
+        const systemAsOf = toUtcIso(positionsSystemTimeInput.value);
+        const query = new URLSearchParams();
+        if (validAsOf) {
+          query.set("valid_time", validAsOf);
+        }
+        if (systemAsOf) {
+          query.set("system_time", systemAsOf);
+        }
+
+        tradesByBookOutput.textContent = "Loading trades...";
+        tradesByBookOutput.className = "empty";
+        tradesByBookMap.clear();
+
+        try {
+          const response = await fetch(`/trades/book/${bookId}?${query.toString()}`);
+          if (!response.ok) {
+            tradesByBookOutput.textContent = "Trades not found.";
+            return;
+          }
+          const trades = await response.json();
+          if (!trades.length) {
+            tradesByBookOutput.textContent = "No trades returned.";
+            return;
+          }
+
+          const rowPromises = trades.map(async (trade) => {
+            tradesByBookMap.set(trade.event_id, trade);
+            
+            // Fetch valid actions for this trade
+            let validActions = { can_cancel: false, can_novate: false };
+            try {
+              const actionsResponse = await fetch(`/trades/${trade.event_id}/valid-actions`);
+              if (actionsResponse.ok) {
+                validActions = await actionsResponse.json();
+              }
+            } catch (err) {
+              console.error(`Failed to fetch valid actions for ${trade.event_id}:`, err);
+            }
+            
+            // Build action buttons only for valid actions
+            let actionButtons = "";
+            if (validActions.can_cancel || validActions.can_novate) {
+              if (validActions.can_cancel) {
+                actionButtons += `<button type="button" class="secondary cancel-button" data-event-id="${trade.event_id}">Cancel</button>`;
+              }
+              if (validActions.can_novate) {
+                actionButtons += `<button type="button" class="secondary novate-button" data-event-id="${trade.event_id}">Novate</button>`;
+              }
+            } else {
+              // Show closed/terminal state indicator
+              const eventTypeLabel = formatEventType(trade.event_type, trade.type_id);
+              actionButtons = `<span style="color:#5a6573;font-size:0.9em">${eventTypeLabel === 'cancel' ? 'Cancelled' : 'Closed'}</span>`;
+            }
+            
+            return `
+            <tr data-event-id="${trade.event_id}">
+              <td>${trade.event_id}</td>
+              <td>${trade.book1_side}</td>
+              <td>${trade.book1_id}</td>
+              <td>${trade.book2_id}</td>
+              <td>${trade.instrument_key}</td>
+              <td>${trade.quantity}</td>
+              <td>${trade.price}</td>
+              <td>${trade.currency}</td>
+              <td>${trade.valid_time}</td>
+              <td>${trade.system_time}</td>
+              <td>${formatEventType(trade.event_type, trade.type_id)}</td>
+              <td>${actionButtons}</td>
+            </tr>
+          `;
+          });
+          
+          const rows = (await Promise.all(rowPromises)).join("");
+
+          tradesByBookOutput.className = "result";
+          tradesByBookOutput.innerHTML = `
+            <table>
+              <thead>
+                <tr>
+                  <th>Event</th>
+                  <th>Book1 side</th>
+                  <th>Book1</th>
+                  <th>Book2</th>
+                  <th>Instrument</th>
+                  <th>Qty</th>
+                  <th>Price</th>
+                  <th>CCY</th>
+                  <th>Valid time</th>
+                  <th>System time</th>
+                  <th>Event type</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows}
+              </tbody>
+            </table>
+          `;
+        } catch (err) {
+          tradesByBookOutput.textContent = "Fetch failed: " + err.message;
+        }
+      };
+
+      const refreshBookViewsNow = async (bookId, { resetAsOf = true } = {}) => {
+        if (!bookId) {
+          return;
+        }
+        positionsBookIdInput.value = bookId;
+        if (resetAsOf) {
+          positionsAsOfUserEdited = false;
+          setDefaultAsOfTimes();
+        }
+        await refreshPositions(bookId);
+        await refreshTrades(bookId);
+      };
+
+      const ensureSelectOption = (selectEl, value, label) => {
+        const exists = Array.from(selectEl.options).some((option) => option.value === value);
+        if (exists) {
+          return;
+        }
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = label;
+        selectEl.appendChild(option);
+      };
+
+      const loadCancelTrades = async (bookIdOverride = null) => {
+        const bookId = (bookIdOverride || book1Select.value).trim();
+        console.log("[loadCancelTrades] Loading trades for book:", bookId);
+        cancelTradeMap.clear();
+
+        if (!bookId) {
+          console.log("[loadCancelTrades] No book ID provided");
+          setTradeOptions(cancelTradeSelect, [], "Select a book first");
+          return;
+        }
+
+        try {
+          const response = await fetch(`/trades/book/${bookId}/cancellable`);
+          if (!response.ok) {
+            throw new Error(`API returned ${response.status} ${response.statusText}`);
+          }
+          const cancellableTrades = await response.json();
+          console.log("[loadCancelTrades] Fetched cancellable trades:", cancellableTrades);
+          setTradeOptions(cancelTradeSelect, cancellableTrades, "Select trade to cancel");
+          if (!cancellableTrades.length) {
+            bookResult.textContent = "No cancellable trades available for this book.";
+          }
+        } catch (err) {
+          console.error("[loadCancelTrades] Error:", err);
+          setTradeOptions(cancelTradeSelect, [], "Unable to load trades");
+          bookResult.textContent = "Cancel trade list unavailable: " + err.message;
+        }
+      };
+
+      const setCancelFieldState = (isCancel) => {
+        // When selecting a reference trade, the form fields are populated automatically
+        // from the selected trade, so they become disabled until a trade is selected.
+        const formFields = [
+          book1Select, book2Select, book1SideSelect,
+          instrumentKeyInput, quantityInput, priceInput, currencyInput
+        ];
+        formFields.forEach(field => {
+          field.disabled = isCancel;
+        });
+      };
+
+      const updateReferenceTradeLabelAndLoadTrades = async (eventTypeValue) => {
+        const typeId = Number(eventTypeValue);
+        let labelText = "Reference trade";
+        let helperText = "Select an open trade to cancel or novate. Only OpenEvent(1) trades can be referenced.";
+        
+        if (typeId === 2) {
+          labelText = "Trade to cancel";
+          helperText = "Select an open trade to reverse. All effects will be undone.";
+        } else if (typeId === 5) {
+          labelText = "Trade to novate";
+          helperText = "Select an open trade to transfer to a new book.";
+        }
+        
+        const label = document.querySelector("label[for='cancelTrade']");
+        const helper = document.querySelector("#cancelTradeWrap .helper");
+        if (label) label.textContent = labelText;
+        if (helper) helper.textContent = helperText;
+        
+        // Load the available trades for this book
+        if (typeId !== 1) {
+          await loadCancelTrades();
+        }
+      };
+
+      const setCancelMode = async (isCancel) => {
+        cancelTradeWrap.classList.toggle("is-hidden", !isCancel);
+        cancelTradeSelect.required = isCancel;
+        setCancelFieldState(isCancel);
+        if (isCancel) {
+          await updateReferenceTradeLabelAndLoadTrades(eventTypeSelect.value);
+        } else {
+          cancelTradeSelect.value = "";
+        }
+      };
+
+      const applyCancelTradeSelection = () => {
+        const trade = cancelTradeMap.get(cancelTradeSelect.value);
+        if (!trade) {
+          return;
+        }
+        book1Select.value = trade.book1_id;
+        book2Select.value = trade.book2_id;
+        book1SideSelect.value = trade.book1_side;
+        instrumentKeyInput.value = trade.instrument_key;
+        quantityInput.value = trade.quantity;
+        priceInput.value = trade.price;
+        currencyInput.value = trade.currency;
+      };
+
+      const cancelTradeImmediately = async (trade) => {
+        if (!trade || (trade.type_id !== 1 && trade.type_id !== 5)) {
+          bookResult.textContent = "Cancel not allowed for this event.";
+          return;
+        }
+        const payload = {
+          book1_id: trade.book1_id,
+          book2_id: trade.book2_id,
+          book1_side: trade.book1_side,
+          instrument_key: trade.instrument_key,
+          quantity: Number(trade.quantity),
+          price: Number(trade.price),
+          currency: trade.currency,
+          non_economic_data: { source: "ui-cancel" },
+          valid_time: toUtcIso(toLocalDateTimeValue(new Date())),
+          created_by: createdByInput.value.trim() || "web-console",
+          type_id: 2,
+          prior_event_id: trade.event_id
+        };
+
+        try {
+          bookResult.textContent = "Submitting cancel event...";
+          const data = await postTrade(payload);
+          bookResult.textContent = "Cancel event created. event_id: " + data.event_id;
+          const row = tradesByBookOutput.querySelector(`tr[data-event-id="${trade.event_id}"]`);
+          const cancelButton = row?.querySelector(".cancel-button");
+          if (cancelButton) {
+            cancelButton.disabled = true;
+            cancelButton.textContent = "Cancelled";
+          }
+          await refreshBookViewsNow(trade.book1_id);
+        } catch (err) {
+          bookResult.textContent = "Cancel submit failed: " + err.message;
+        }
+      };
+
+      const startCancelFromTrade = async (trade) => {
+        console.log("[startCancelFromTrade] Starting cancel for trade:", trade);
+        eventTypeSelect.value = "2";
+        book1Select.value = trade.book1_id;
+        book2Select.value = trade.book2_id;
+        ensureSelectOption(book1Select, trade.book1_id, trade.book1_id);
+        ensureSelectOption(book2Select, trade.book2_id, trade.book2_id);
+        book1SideSelect.value = trade.book1_side;
+        instrumentKeyInput.value = trade.instrument_key;
+        quantityInput.value = trade.quantity;
+        priceInput.value = trade.price;
+        currencyInput.value = trade.currency;
+        validTimeInput.value = toLocalDateTimeValue(new Date());
+        if (!createdByInput.value) {
+          createdByInput.value = "web-console";
+        }
+        
+        // Load cancel trades FIRST before switching mode
+        await loadCancelTrades(trade.book1_id);
+        console.log("[startCancelFromTrade] Trades loaded, switching to cancel mode");
+        
+        // THEN switch to cancel mode
+        await setCancelMode(true);
+        
+        // Now select the trade to cancel
+        console.log("[startCancelFromTrade] Setting cancel trade to:", trade.event_id);
+        // Ensure the trade is in the map (it should already be from loadCancelTrades)
+        if (!cancelTradeMap.has(trade.event_id)) {
+          cancelTradeMap.set(trade.event_id, trade);
+        }
+        cancelTradeSelect.value = trade.event_id;
+        applyCancelTradeSelection();
+        console.log("[startCancelFromTrade] Auto-submitting cancel");
+        await submitCancelForm(trade.book1_id, trade.event_id);
+      };
+
+      const startNovateFromTrade = async (trade) => {
+        // Prompt user for new book2
+        const books = await fetch("/books").then(r => r.json());
+        const currentBook2 = trade.book2_id;
+        
+        // Filter out option to select same book as traderBook or current book2
+        const validBooks = books.filter(
+          b => b.book_id !== trade.book1_id && b.book_id !== currentBook2
+        );
+        
+        if (validBooks.length === 0) {
+          alert("No valid counterparties available for novation. New book2 cannot be the same as TraderBook or current book2.");
+          return;
+        }
+        
+        // Create a simple dialog to select new book2
+        const bookOptions = validBooks.map(b => `<option value="${b.book_id}">${b.book_id}</option>`).join("");
+        const dialog = document.createElement("div");
+        dialog.style.cssText = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;border:2px solid #0c1016;padding:24px;border-radius:12px;z-index:1000;min-width:400px;box-shadow:0 24px 60px rgba(12,16,22,0.3)";
+        
+        dialog.innerHTML = `
+          <h3 style="margin-top:0">Novate Trade to New Counterparty</h3>
+          <p>Current book2: <strong>${currentBook2}</strong></p>
+          <label for="novateBook2Select" style="display:block;margin:16px 0 8px">Select new book2:</label>
+          <select id="novateBook2Select" style="width:100%;padding:8px;border:1px solid #d6cbbd;border-radius:4px">
+            <option value="">-- Select a book --</option>
+            ${bookOptions}
+          </select>
+          <div style="margin-top:20px;display:flex;gap:12px">
+            <button id="novateConfirm" style="flex:1;padding:10px;background:#0c1016;color:white;border:none;border-radius:4px;cursor:pointer">Novate</button>
+            <button id="novateCancel" style="flex:1;padding:10px;background:#d6cbbd;color:#0c1016;border:none;border-radius:4px;cursor:pointer">Cancel</button>
+          </div>
+        `;
+        
+        document.body.appendChild(dialog);
+        
+        const novateBook2Select = document.getElementById("novateBook2Select");
+        const confirmBtn = document.getElementById("novateConfirm");
+        const cancelBtn = document.getElementById("novateCancel");
+        
+        const cleanup = () => {
+          document.body.removeChild(dialog);
+        };
+        
+        cancelBtn.addEventListener("click", cleanup);
+        
+        confirmBtn.addEventListener("click", async () => {
+          const newBook2 = novateBook2Select.value.trim();
+          if (!newBook2) {
+            alert("Please select a new book2");
+            return;
+          }
+          cleanup();
+          await submitNovateForm(trade, newBook2);
+        });
+      };
+
+      const submitNovateForm = async (trade, newBook2Id) => {
+        const payload = {
+          book1_id: trade.book1_id,
+          book2_id: newBook2Id,
+          book1_side: trade.book1_side,
+          instrument_key: trade.instrument_key,
+          quantity: Number(trade.quantity),
+          price: Number(trade.price),
+          currency: trade.currency,
+          non_economic_data: { source: "ui-novate" },
+          valid_time: toUtcIso(toLocalDateTimeValue(new Date())),
+          created_by: createdByInput.value.trim() || "web-console",
+          type_id: 5,
+          prior_event_id: trade.event_id
+        };
+
+        try {
+          bookResult.textContent = "Submitting novate event...";
+          const data = await postTrade(payload);
+          bookResult.textContent = "Novate event created. event_id: " + data.event_id;
+          const row = tradesByBookOutput.querySelector(`tr[data-event-id="${trade.event_id}"]`);
+          if (row) {
+            const buttons = row.querySelectorAll("button");
+            buttons.forEach(btn => {
+              btn.disabled = true;
+            });
+          }
+          await refreshBookViewsNow(trade.book1_id);
+        } catch (err) {
+          bookResult.textContent = "Novate submit failed: " + err.message;
+        }
+      };
+
+      const submitCancelForm = async (bookId, priorEventId) => {
+        const payload = {
+          book1_id: book1Select.value.trim(),
+          book2_id: book2Select.value.trim(),
+          book1_side: book1SideSelect.value.trim(),
+          instrument_key: instrumentKeyInput.value.trim(),
+          quantity: Number(quantityInput.value),
+          price: Number(priceInput.value),
+          currency: currencyInput.value.trim(),
+          non_economic_data: { source: "ui-cancel" },
+          valid_time: toUtcIso(validTimeInput.value),
+          created_by: createdByInput.value.trim(),
+          type_id: 2,
+          prior_event_id: priorEventId
+        };
+
+        try {
+          bookResult.textContent = "Submitting cancel event...";
+          const data = await postTrade(payload);
+          bookResult.textContent = "Cancel event created. event_id: " + data.event_id;
+          await refreshBookViewsNow(bookId);
+        } catch (err) {
+          bookResult.textContent = "Cancel submit failed: " + err.message;
+        }
+      };
+
+      const loadCurrentUser = async () => {
+        try {
+          const response = await fetch("/whoami");
+          if (!response.ok) {
+            throw new Error("Failed to load user");
+          }
+          const data = await response.json();
+          createdByInput.value = data.user || "";
+          createdByInput.placeholder = data.user ? "" : "user";
+        } catch (err) {
+          createdByInput.placeholder = "user";
+        }
+      };
+
+      const loadBooks = async () => {
+        try {
+          const response = await fetch("/books");
+          if (!response.ok) {
+            throw new Error("Failed to load books");
+          }
+          const books = await response.json();
+          setSelectOptions(book1Select, books, "Select book 1");
+          setSelectOptions(book2Select, books, "Select book 2");
+          setSelectOptions(positionsBookIdInput, books, "Select book");
+          return books;
+        } catch (err) {
+          bookResult.textContent = "Book list unavailable: " + err.message;
+          return null;
+        }
+      };
+
+      const loadInstruments = async () => {
+        try {
+          const response = await fetch("/instruments");
+          if (!response.ok) {
+            throw new Error("Failed to load instruments");
+          }
+          const instruments = await response.json();
+          setInstrumentOptions(instrumentKeyInput, instruments, "Select NYSE instrument");
+          return instruments;
+        } catch (err) {
+          bookResult.textContent = "Instrument list unavailable: " + err.message;
+          return null;
+        }
+      };
+
+      fillSample.addEventListener("click", async () => {
+        await loadBooks();
+        await loadInstruments();
+        book1Select.value = "ALPHA_TRADING";
+        book2Select.value = "BETA_CAPITAL";
+        book1SideSelect.value = "BUY";
+        instrumentKeyInput.value = "AAPL";
+        quantityInput.value = "25";
+        priceInput.value = "";
+        applyInstrumentDefaultPrice(true);
+        currencyInput.value = "USD";
+        validTimeInput.value = toLocalDateTimeValue(new Date());
+        if (!createdByInput.value) {
+          createdByInput.value = "web-console";
+        }
+        eventTypeSelect.value = "1";
+        setCancelMode(false);
+        document.getElementById("nonEconomic").value = '{"source":"ui","note":"sample"}';
+      });
+
+      eventTypeSelect.addEventListener("change", () => {
+        setCancelMode(eventTypeSelect.value !== "1");
+      });
+
+      book1Select.addEventListener("change", async () => {
+        const typeId = Number(eventTypeSelect.value);
+        if (typeId !== 1) {
+          // Reload reference trades when book1 changes for Cancel or Novation events
+          await loadCancelTrades();
+        }
+      });
+
+      cancelTradeSelect.addEventListener("change", () => {
+        applyCancelTradeSelection();
+      });
+
+      instrumentKeyInput.addEventListener("change", () => {
+        applyInstrumentDefaultPrice(true);
+      });
+
+      tradeForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        bookResult.textContent = "Booking trade...";
+
+        let nonEconomic = {};
+        const rawNonEconomic = document.getElementById("nonEconomic").value.trim();
+        if (rawNonEconomic) {
+          try {
+            nonEconomic = JSON.parse(rawNonEconomic);
+          } catch (err) {
+            bookResult.textContent = "Non economic data must be valid JSON.";
+            return;
+          }
+        }
+
+        const payload = {
+          book1_id: book1Select.value.trim(),
+          book2_id: book2Select.value.trim(),
+          book1_side: book1SideSelect.value.trim(),
+          instrument_key: instrumentKeyInput.value.trim(),
+          quantity: Number(quantityInput.value),
+          price: Number(priceInput.value),
+          currency: currencyInput.value.trim(),
+          non_economic_data: nonEconomic,
+          valid_time: toUtcIso(validTimeInput.value),
+          created_by: createdByInput.value.trim(),
+          type_id: Number(eventTypeSelect.value),
+          prior_event_id: null
+        };
+
+        if (eventTypeSelect.value !== "1") {
+          if (!cancelTradeSelect.value) {
+            bookResult.textContent = "Select a prior trade reference.";
+            return;
+          }
+          payload.prior_event_id = cancelTradeSelect.value;
+        }
+
+        try {
+          const data = await postTrade(payload);
+          bookResult.textContent = "Trade booked. event_id: " + data.event_id;
+          tradeEventIdInput.value = data.event_id;
+          await refreshBookViewsNow(payload.book1_id);
+        } catch (err) {
+          bookResult.textContent = "Booking failed: " + err.message;
+        }
+      });
+
+      fetchTradeButton.addEventListener("click", async () => {
+        const eventId = tradeEventIdInput.value.trim();
+        if (!eventId) {
+          tradeOutput.textContent = "Provide an event id.";
+          tradeOutput.className = "empty";
+          return;
+        }
+
+        tradeOutput.textContent = "Loading trade...";
+        tradeOutput.className = "empty";
+
+        try {
+          const response = await fetch(`/trades/${eventId}`);
+          if (!response.ok) {
+            tradeOutput.textContent = "Trade not found.";
+            return;
+          }
+          const events = await response.json();
+          if (!events.length) {
+            tradeOutput.textContent = "No events returned.";
+            return;
+          }
+
+          const rows = events.map((event) => `
+            <tr>
+              <td>${event.book1_id}</td>
+              <td>${event.book2_id}</td>
+              <td>${event.book1_side}</td>
+              <td>${event.instrument_key}</td>
+              <td>${event.quantity}</td>
+              <td>${event.price}</td>
+              <td>${event.currency}</td>
+              <td>${event.valid_time}</td>
+              <td>${event.system_time}</td>
+              <td>${formatEventType(event.event_type, event.type_id)}</td>
+            </tr>
+          `).join("");
+
+          tradeOutput.className = "result";
+          tradeOutput.innerHTML = `
+            <table>
+              <thead>
+                <tr>
+                  <th>Book1</th>
+                  <th>Book2</th>
+                  <th>Book1 side</th>
+                  <th>Instrument</th>
+                  <th>Qty</th>
+                  <th>Price</th>
+                  <th>CCY</th>
+                  <th>Valid time</th>
+                  <th>System time</th>
+                  <th>Event type</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows}
+              </tbody>
+            </table>
+          `;
+        } catch (err) {
+          tradeOutput.textContent = "Fetch failed: " + err.message;
+        }
+      });
+
+      refreshBookViewsButton.addEventListener("click", async () => {
+        const bookId = positionsBookIdInput.value.trim();
+        if (!bookId) {
+          positionsOutput.textContent = "Provide a book id.";
+          positionsOutput.className = "empty";
+          return;
+        }
+
+        await refreshBookViewsNow(bookId, { resetAsOf: false });
+      });
+
+      tradesByBookOutput.addEventListener("click", async (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) {
+          return;
+        }
+        const row = target.closest("tr");
+        if (row && row.dataset.eventId && !target.classList.contains("cancel-button") && !target.classList.contains("novate-button")) {
+          const trade = tradesByBookMap.get(row.dataset.eventId);
+          if (trade && (trade.type_id === 1 || trade.type_id === 5)) {
+            await startCancelFromTrade(trade);
+          }
+          return;
+        }
+        if (target.classList.contains("cancel-button")) {
+          const eventId = target.dataset.eventId;
+          if (!eventId) {
+            return;
+          }
+          const trade = tradesByBookMap.get(eventId);
+          if (!trade || (trade.type_id !== 1 && trade.type_id !== 5)) {
+            return;
+          }
+          await cancelTradeImmediately(trade);
+          return;
+        }
+        if (target.classList.contains("novate-button")) {
+          const eventId = target.dataset.eventId;
+          if (!eventId) {
+            return;
+          }
+          const trade = tradesByBookMap.get(eventId);
+          if (!trade || (trade.type_id !== 1 && trade.type_id !== 5)) {
+            return;
+          }
+          await startNovateFromTrade(trade);
+          return;
+        }
+      });
+
+      refreshStatusButton.addEventListener("click", () => {
+        loadClusterStatus();
+        loadShardStatus();
+      });
+
+      loadBackendIdentity();
+      loadClusterStatus();
+      loadShardStatus();
+      loadBooks();
+      loadInstruments();
+      loadCurrentUser();
+      setDefaultAsOfTimes();
+      validTimeInput.value = toLocalDateTimeValue(new Date());
+      positionsValidTimeInput.addEventListener("change", () => {
+        positionsAsOfUserEdited = true;
+      });
+      positionsSystemTimeInput.addEventListener("change", () => {
+        positionsAsOfUserEdited = true;
+      });
+      setInterval(loadClusterStatus, 15000);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+
+  // Claude Sonnet 4.5 Model Configuration for GitHub Extension
+  "github.copilot.advanced": {
+    "model": "claude-sonnet-4-5-20250929",
+    "modelFamily": "claude-4.5",
+    "modelName": "Claude Sonnet 4.5"
+  },
+
+  // Alternative configuration formats (depending on your extension)
+  "ai.model": "claude-sonnet-4-5-20250929",
+  "ai.provider": "anthropic",
+  "ai.modelConfig": {
+    "id": "claude-sonnet-4-5-20250929",
+    "name": "Claude Sonnet 4.5",
+    "family": "claude-4.5/4.6",
+    "provider": "Anthropic",
+    "capabilities": [
+      "code-completion",
+      "chat",
+      "code-generation",
+      "refactoring"
+    ]
+  },
+
+  // Additional model options
+  "ai.availableModels": [
+    {
+      "id": "claude-sonnet-4-5-20250929",
+      "name": "Claude Sonnet 4.5",
+      "description": "Balanced performance and speed"
+    },
+    {
+      "id": "claude-opus-4-6",
+      "name": "Claude Opus 4.6",
+      "description": "Most capable model"
+    },
+    {
+      "id": "claude-haiku-4-5-20251001",
+      "name": "Claude Haiku 4.5",
+      "description": "Fastest model for simpler tasks"
+    }
+  ]
+}

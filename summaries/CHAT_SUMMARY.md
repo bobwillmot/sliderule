@@ -42,3 +42,17 @@ Keep this file focused on historical interaction summaries, not step-by-step run
 - AI Tooling/Models: GitHub Copilot (GPT-4.1).
 - Commit: not committed.
 
+### 2026-03-01 14:39 (local)
+- User Prompt: configure this workspace to  append chat requests to chat_summary.md and do this for all future chat requests
+- Changes: Added repository-wide instruction file at `.github/copilot-instructions.md` requiring append-only logging of every future user chat request to `summaries/CHAT_SUMMARY.md`.
+- Validation: Verified `.github/copilot-instructions.md` exists and aligns with the `CHAT_SUMMARY.md` entry template fields.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 14:40 (local)
+- User Prompt: commit and push
+- Changes: Appended this request to `summaries/CHAT_SUMMARY.md` and prepared repository updates for commit/push.
+- Validation: Verified pending changes on `main` before commit.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: committed and pushed in this step.
+

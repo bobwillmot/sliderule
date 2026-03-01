@@ -98,3 +98,24 @@ Keep this file focused on historical interaction summaries, not step-by-step run
 - AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
 - Commit: `600afd3` — Enable workspace auto-activation for .venv.
 
+### 2026-03-01 15:04 (local)
+- User Prompt: squash
+- Changes: Squashed the two latest commits into one commit and force-pushed with lease to update `main` history.
+- Validation: `git push --force-with-lease` succeeded; latest commit is `1f254c5`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 15:06 (local)
+- User Prompt: .venv does't appear to be auto-loaded
+- Changes: Updated `.vscode/settings.json` to add `python.terminal.activateEnvInCurrentTerminal: true` while keeping workspace interpreter and environment activation enabled for `${workspaceFolder}/.venv`.
+- Validation: Ran workspace diagnostics on `.vscode/settings.json` and confirmed no errors.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 15:07 (local)
+- User Prompt: commit and push
+- Changes: Appended this request to `summaries/CHAT_SUMMARY.md` and prepared pending workspace changes for commit/push.
+- Validation: Will validate with git status and successful push to `origin/main`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: committed and pushed in this step.
+

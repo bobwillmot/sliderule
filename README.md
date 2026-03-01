@@ -42,7 +42,7 @@ This will:
 ### Start both APIs
 
 ```bash
-bash scripts/start_services.sh
+bash scripts/start_services.sh &
 ```
 
 To open both UIs side-by-side in default web browser:

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# DEPRECATED: Use scripts/start_services.sh instead for dual deployment with Citus and CockroachDB
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

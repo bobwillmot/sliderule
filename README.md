@@ -39,7 +39,13 @@ This will:
 6. ✓ Start both APIs (Citus + CockroachDB)
 7. ✓ Verify API health checks
 
-Open the UIs:
+### Start both APIs
+
+```bash
+bash scripts/start_services.sh
+```
+
+To open both UIs side-by-side in default web browser:
 
 ```bash
 bash scripts/check_and_open_all_uis.sh
@@ -152,43 +158,11 @@ This will:
 8. Start both APIs automatically
 9. Run API health checks
 
-### Manual Setup (Advanced)
-
-If you prefer to do it step-by-step:
-
-```bash
-# Create and activate virtual environment
-python3.13 -m venv .venv
-source .venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Start Docker services
-cd docker && docker-compose up -d && cd -
-
-# Initialize databases
-python3 scripts/init_all.py
-```
-
-### Environment Configuration
-
-Copy the `.env.example` to `.env.local` and customize as needed:
-
-```bash
-cp .env.example .env.local
-```
-
-You can set custom database URLs, observability endpoints, or API ports.
-
-## Running the APIs
-
-`bash scripts/setup.sh` already starts both APIs.
 
 ### Restart Both APIs (If Needed)
 
 ```bash
-bash scripts/start_services.sh
+bash scripts/start_services.sh &
 ```
 
 This restarts:
@@ -256,17 +230,7 @@ docker-compose ps
 
 Expected services: coordinator, worker1, worker2, cockroachdb.
 
-### Start both APIs
 
-```bash
-bash scripts/start_services.sh
-```
-
-To open both UIs side-by-side in Safari:
-
-```bash
-bash scripts/check_and_open_all_uis.sh
-```
 
 ### Verify both are healthy
 

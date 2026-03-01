@@ -182,3 +182,110 @@ Keep this file focused on historical interaction summaries, not step-by-step run
 - AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
 - Commit: committed and pushed in this step.
 
+### 2026-03-01 16:52 (local)
+- User Prompt: git oush
+- Changes: Interpreted request as `git push` and pushed local `main` to `origin/main`.
+- Validation: Push succeeded (`3e9aa92..2f144ec`); post-push status is clean (`main...origin/main`).
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: pushed existing local commit in this step.
+
+### 2026-03-01 18:17 (local)
+- User Prompt: what docker image name does this folder use
+- Changes: Reviewed Docker Compose configuration to identify image names used by services in this workspace.
+- Validation: Confirmed image entries in `docker/docker-compose.yml`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 18:20 (local)
+- User Prompt: is first  part pf docker-compose.yaml the name of the docker image
+- Changes: Clarified Docker Compose structure: service keys are not image names; image names are values under the `image:` field.
+- Validation: Cross-checked examples in `docker/docker-compose.yml` (e.g., `coordinator` service uses `image: citusdata/citus:12.1`).
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 18:23 (local)
+- User Prompt: rename docker-compose.yml sliderule-compose.yml
+- Changes: Renamed `docker/docker-compose.yml` to `docker/sliderule-compose.yml` and updated compose file references in setup/start/shutdown scripts and README commands.
+- Validation: Confirmed old filename no longer exists; verified all active references now point to `sliderule-compose.yml`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 18:27 (local)
+- User Prompt: what controls the docker container name
+- Changes: Clarified container naming behavior in Docker Compose, including explicit `container_name` vs default generated names.
+- Validation: Checked `docker/sliderule-compose.yml` for services with and without `container_name`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 18:28 (local)
+- User Prompt: make consistent by removing
+- Changes: Removed all explicit `container_name` keys from `docker/sliderule-compose.yml` so all services use Compose default naming.
+- Validation: Searched `docker/sliderule-compose.yml` and confirmed no remaining `container_name` entries.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 18:30 (local)
+- User Prompt: rollback sliderukle-compose.ymll change
+- Changes: Rolled back the recent `docker/sliderule-compose.yml` edit by restoring explicit `container_name` entries for tempo, prometheus, node-exporter, loki, otel-collector, and grafana.
+- Validation: Verified `container_name` appears again in six services in `docker/sliderule-compose.yml`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 18:31 (local)
+- User Prompt: also roll back any other sliderule-compose.yml related changes
+- Changes: Rolled back migration-related changes by renaming compose file back to `docker/docker-compose.yml` and restoring prior references in `scripts/setup.sh`, `scripts/shutdown.sh`, `scripts/start.sh`, and `README.md`.
+- Validation: Confirmed `docker/docker-compose.yml` exists, `docker/sliderule-compose.yml` no longer exists, and no active non-summary references to `sliderule-compose.yml` remain.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 18:32 (local)
+- User Prompt: un a quick docker compose -f [docker-compose.yml](http://_vscodecontentref_/14) config sanity check.
+- Changes: Ran `docker compose -f docker/docker-compose.yml config` to validate Compose parsing and merged output.
+- Validation: Command succeeded and rendered normalized Compose config (services + network), indicating the file is syntactically valid.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 18:33 (local)
+- User Prompt: why is docker container name 'docker' instead of 'sliderule'
+- Changes: Explained Docker Compose project-name behavior and why the stack name resolves to `docker` in this setup.
+- Validation: Correlated with prior `docker compose -f docker/docker-compose.yml config` output showing `name: docker`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 18:34 (local)
+- User Prompt: Run with -p sliderule, e.g. docker compose -p sliderule -f [docker-compose.yml](http://_vscodecontentref_/4) up -d, or
+Set COMPOSE_PROJECT_NAME=sliderule, or
+Add top-level name: sliderule to docker-compose.yml.
+- Changes: Implemented the third option by adding top-level `name: sliderule` to `docker/docker-compose.yml`.
+- Validation: Ran `docker compose -f docker/docker-compose.yml config` and confirmed output begins with `name: sliderule`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 18:35 (local)
+- User Prompt: does docker-compose.yml require container_name
+- Changes: Clarified that `container_name` is optional in Docker Compose and explained default naming behavior.
+- Validation: Confirmed current compose file includes both an explicit project name (`name: sliderule`) and optional `container_name` fields.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 18:36 (local)
+- User Prompt: leaving it out is preferred because it avoids naming conflicts and is more scalable
+- Changes: Updated `docker/docker-compose.yml` to remove all explicit `container_name` fields so services use Compose-managed naming.
+- Validation: Verified no `container_name` keys remain and `docker compose -f docker/docker-compose.yml config` succeeds with `name: sliderule`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 18:39 (local)
+- User Prompt: soruce .venv
+- Changes: Activated the workspace virtual environment by sourcing `.venv/bin/activate` in the shared zsh terminal session.
+- Validation: Terminal output confirmed `VENV_ACTIVE=/Users/bobwillmot/src/sliderule/.venv`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 18:40 (local)
+- User Prompt: git commit and push
+- Changes: Appended this request to `summaries/CHAT_SUMMARY.md` and committed all pending workspace updates.
+- Validation: Verified branch status and pushed `main` to `origin/main` successfully.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: committed and pushed in this step.
+

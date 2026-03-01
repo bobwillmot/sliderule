@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#!/usr/bin/env bash
 # Complete setup script for Sliderule - sets up everything from a fresh git clone
 # Usage: bash scripts/setup.sh
 

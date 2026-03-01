@@ -56,3 +56,17 @@ Keep this file focused on historical interaction summaries, not step-by-step run
 - AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
 - Commit: committed and pushed in this step.
 
+### 2026-03-01 14:41 (local)
+- User Prompt: configure this workspace to append refactor requests to refactoring_summary.md
+- Changes: Added mandatory refactor-request logging policy to `.github/copilot-instructions.md` and converted `summaries/REFACTORING_SUMMARY.md` to an append-only entry-template format.
+- Validation: Verified both files were updated and aligned to required fields and timestamp format.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 14:42 (local)
+- User Prompt: commit and push
+- Changes: Prepared pending workspace logging/config updates for commit and push.
+- Validation: Verified modified files and active branch before commit.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: committed and pushed in this step.
+

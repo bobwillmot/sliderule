@@ -19,3 +19,23 @@ For every user chat request in this repository, append one new entry to `summari
 6. **No duplicates**: do not add duplicate entries for the same request.
 
 If writing fails for any reason, report the failure explicitly and provide the exact entry content that should be appended.
+
+## Mandatory refactor request logging
+
+For every user request that asks to refactor code (or clearly requests refactoring intent), append one new entry to `summaries/REFACTORING_SUMMARY.md` before ending your response.
+
+### Refactor logging rules
+
+1. **Append-only**: never rewrite or delete prior entries.
+2. **One refactor request = one entry**: log each refactor request once.
+3. **Prompt fidelity**: capture the user prompt verbatim when available.
+4. **Required fields**: use these fields in each entry:
+   - User Prompt
+   - Scope
+   - Changes
+   - Validation
+   - Commit
+5. **Timestamp**: use local time with header format `### YYYY-MM-DD HH:MM (local)`.
+6. **No duplicates**: do not append duplicate entries for the same request.
+
+If writing fails for any reason, report the failure explicitly and provide the exact entry content that should be appended.

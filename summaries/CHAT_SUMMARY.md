@@ -119,3 +119,24 @@ Keep this file focused on historical interaction summaries, not step-by-step run
 - AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
 - Commit: committed and pushed in this step.
 
+### 2026-03-01 15:08 (local)
+- User Prompt: Default interpreter path '${workspaceFolder}/.venv/bin/python' could not be resolved: Could not resolve interpreter path '${workspaceFolder}/.venv/bin/python'
+- Changes: Updated `.vscode/settings.json` to use absolute interpreter path `/Users/bobwillmot/src/sliderule/.venv/bin/python` instead of `${workspaceFolder}` variable expansion.
+- Validation: Confirmed `.venv/bin/python` exists and resolves, then ran diagnostics on `.vscode/settings.json` with no errors.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 15:10 (local)
+- User Prompt: "python.defaultInterpreterPath": "/Users/bobwillmot/src/sliderule/.venv/bin/python", looks hard-wired -- can this be a variable so it works for ither users too?
+- Changes: Updated `.vscode/settings.json` to set `python.defaultInterpreterPath` to `${workspaceFolder}/.venv` for a user- and OS-portable workspace interpreter setting.
+- Validation: Ran diagnostics on `.vscode/settings.json`; no errors found.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 15:10 (local)
+- User Prompt: commit and push
+- Changes: Appended this request to `summaries/CHAT_SUMMARY.md` and prepared pending workspace updates for commit/push.
+- Validation: Verified branch status and staged changes before commit.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: committed and pushed in this step.
+

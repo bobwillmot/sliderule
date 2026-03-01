@@ -140,3 +140,10 @@ Keep this file focused on historical interaction summaries, not step-by-step run
 - AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
 - Commit: committed and pushed in this step.
 
+### 2026-03-01 15:11 (local)
+- User Prompt: Default interpreter path '${workspaceFolder}/.venv' could not be resolved: Could not resolve interpreter path '${workspaceFolder}/.venv'
+- Changes: Updated `.vscode/settings.json` to set `python.defaultInterpreterPath` to `${workspaceFolder}/.venv/bin/python` so the setting resolves to an executable path while remaining workspace-portable.
+- Validation: Confirmed `.venv/bin/python` exists in the workspace virtual environment.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+

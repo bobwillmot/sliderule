@@ -3,7 +3,8 @@
 [![Python application](https://github.com/bobwillmot/sliderule/actions/workflows/python-app.yml/badge.svg)](https://github.com/bobwillmot/sliderule/actions/workflows/python-app.yml)
 [![codecov](https://codecov.io/gh/bobwillmot/sliderule/branch/main/graph/badge.svg)](https://codecov.io/gh/bobwillmot/sliderule)
 
-Minimal CQRS-aligned, bi-temporal event store on Citus with stored procedures and a FastAPI web front end. Events store non-economic data in a `non_economic_data` column and include a numeric `type_id`. The schema distributes `events` by `book_id`.
+bi-temporal event store on Citus with stored procedures and a FastAPI web front end. Events store non-economic data in a `non_economic_data` column and include a numeric `type_id`. The schema distributes `events` by `book_id`.
+uses minimalistic Command Query Separation (CQS) & Command Query Responsibility Segregation (CQRS)
 
 ## Features
 

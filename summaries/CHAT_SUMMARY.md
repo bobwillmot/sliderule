@@ -289,3 +289,17 @@ Add top-level name: sliderule to docker-compose.yml.
 - AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
 - Commit: committed and pushed in this step.
 
+### 2026-03-01 18:50 (local)
+- User Prompt: remove sripts/start.sh
+- Changes: Deleted `scripts/start.sh` from the workspace.
+- Validation: Verified repository status shows `D scripts/start.sh` on branch `main`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 18:52 (local)
+- User Prompt: commit and push
+- Changes: Appended this request to `summaries/CHAT_SUMMARY.md` and prepared all pending workspace changes for commit.
+- Validation: Verified pending changes on `main` before commit and push.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: committed and pushed in this step.
+

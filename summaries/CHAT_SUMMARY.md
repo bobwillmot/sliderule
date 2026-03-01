@@ -35,6 +35,13 @@ Keep this file focused on historical interaction summaries, not step-by-step run
 - AI Tooling/Models: GitHub Copilot (GPT-4.1).
 - Commit: not committed.
 
+### 2026-03-01 15:56 (local)
+- User Prompt: replace pip install referencs with pip calls from .venv/
+- Changes: Updated `scripts/setup.sh` to run installs via explicit `.venv` pip executable (`$VENV_DIR/bin/pip`) instead of bare `pip`.
+- Validation: Verified script references; only remaining `pip install` text is an informational message in `scripts/start.sh` that already uses `.venv/bin/pip install`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
 ### 2026-03-01 14:10 (local)
 - User Prompt: chat requests are not getting logged to chat_summary fix that
 - Changes: Manually appended chat request to CHAT_SUMMARY.md to ensure logging.
@@ -158,6 +165,20 @@ Keep this file focused on historical interaction summaries, not step-by-step run
 - User Prompt: push
 - Changes: Prepared and pushed latest local `main` commits to `origin/main`, including pending chat summary logging updates.
 - Validation: `git push` completed successfully.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: committed and pushed in this step.
+
+### 2026-03-01 15:51 (local)
+- User Prompt: replace python3 with .venv/bin/python
+- Changes: Updated `scripts/setup.sh` and `scripts/start_services.sh` to use `.venv/bin/python`/`python` instead of `python3`, and updated command usage in `SETUP.md` to `.venv/bin/python scripts/init_all.py`.
+- Validation: Searched updated files and confirmed no remaining `python3` references in `scripts/setup.sh`, `scripts/start_services.sh`, or `SETUP.md`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 15:57 (local)
+- User Prompt: git commit and push
+- Changes: Appended this request to `summaries/CHAT_SUMMARY.md` and prepared pending workspace updates for commit/push.
+- Validation: Verified branch status and modified files before commit.
 - AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
 - Commit: committed and pushed in this step.
 

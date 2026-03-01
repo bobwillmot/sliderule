@@ -9,10 +9,10 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 # Find the Python executable (prefer venv if available)
-if [ -f "$ROOT_DIR/.venv/bin/python3" ]; then
-    PYTHON_BIN="$ROOT_DIR/.venv/bin/python3"
+if [ -f "$ROOT_DIR/.venv/bin/python" ]; then
+    PYTHON_BIN="$ROOT_DIR/.venv/bin/python"
 else
-    PYTHON_BIN="python3"
+    PYTHON_BIN="python"
 fi
 
 # Setup environment variables

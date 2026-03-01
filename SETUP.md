@@ -62,7 +62,7 @@ bash scripts/setup.sh
 **When to use:** Reset databases while keeping Docker services running
 
 ```bash
-python3 scripts/init_all.py
+.venv/bin/python scripts/init_all.py
 ```
 
 ### `scripts/start_services.sh` (Updated)

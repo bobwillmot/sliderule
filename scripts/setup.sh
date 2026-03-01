@@ -7,7 +7,8 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VENV_DIR="$ROOT_DIR/.venv"
-PYTHON_BIN="$VENV_DIR/bin/python3"
+PYTHON_BIN="$VENV_DIR/bin/python"
+PIP_BIN="$VENV_DIR/bin/pip"
 
 # Colors for output
 RED='\033[0;31m'
@@ -57,7 +58,7 @@ if ! command -v docker-compose &> /dev/null; then
 fi
 echo -e "${GREEN}✓ Docker Compose is installed${NC}"
 
-if ! command -v python3 &> /dev/null; then
+if ! command -v python &> /dev/null; then
     echo -e "${RED}✗ Python 3 is not installed${NC}"
     exit 1
 fi
@@ -68,10 +69,10 @@ echo ""
 echo -e "${YELLOW}Setting up Python virtual environment...${NC}"
 
 if [ ! -d "$VENV_DIR" ]; then
-    python3.13 -m venv "$VENV_DIR"
-    echo -e "${GREEN}✓ Python 3.13 virtual environment created${NC}"
+    python -m venv "$VENV_DIR"
+    echo -e "${GREEN}✓ Python virtual environment created${NC}"
 else
-    echo -e "${GREEN}✓ Python 3.13 virtual environment already exists${NC}"
+    echo -e "${GREEN}✓ Python virtual environment already exists${NC}"
 fi
 
 # Activate virtual environment
@@ -81,11 +82,11 @@ echo -e "${GREEN}✓ Virtual environment activated${NC}"
 # Upgrade pip
 echo ""
 echo -e "${YELLOW}Installing dependencies...${NC}"
-pip install --quiet --upgrade pip setuptools wheel
+"$PIP_BIN" install --quiet --upgrade pip setuptools wheel
 
 # Install Python dependencies
 if [ -f "$ROOT_DIR/requirements.txt" ]; then
-    pip install --quiet -r "$ROOT_DIR/requirements.txt"
+    "$PIP_BIN" install --quiet -r "$ROOT_DIR/requirements.txt"
     echo -e "${GREEN}✓ Python dependencies installed${NC}"
 else
     echo -e "${RED}✗ requirements.txt not found${NC}"

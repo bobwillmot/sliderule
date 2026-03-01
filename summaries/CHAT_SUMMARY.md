@@ -77,3 +77,24 @@ Keep this file focused on historical interaction summaries, not step-by-step run
 - AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
 - Commit: committed and pushed in this step.
 
+### 2026-03-01 15:01 (local)
+- User Prompt: source venv in this folder
+- Changes: Attempted to source `./venv` (not present), discovered `./.venv`, and activated it in the workspace terminal session.
+- Validation: Terminal output confirmed activation with `Activated: /Users/bobwillmot/src/sliderule/.venv`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 15:02 (local)
+- User Prompt: automaticaly source .venv each time this workspace is opened
+- Changes: Updated workspace VS Code settings to enable terminal environment activation while using `${workspaceFolder}/.venv/bin/python` as default interpreter.
+- Validation: Confirmed `.vscode/settings.json` now includes `python.terminal.activateEnvironment: true`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 15:03 (local)
+- User Prompt: commit and push
+- Changes: Committed and pushed pending updates for workspace Python auto-activation and chat request logging.
+- Validation: `git push` succeeded to `origin/main`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: `600afd3` — Enable workspace auto-activation for .venv.
+

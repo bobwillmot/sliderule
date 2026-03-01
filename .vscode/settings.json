@@ -1,5 +1,6 @@
 {
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.terminal.activateEnvironment": true,
 
   // Claude Sonnet 4.5 Model Configuration for GitHub Extension
   "github.copilot.advanced": {

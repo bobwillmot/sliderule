@@ -27,7 +27,15 @@ def init_db() -> None:
         run_sql(conn, schema_sql)
         run_sql(conn, seed_sql)
         run_sql(conn, procs_sql)
-        run_sql(conn, "CREATE USER sliderule_user WITH PASSWORD 'sliderule_passwd';")
+        run_sql(conn, """
+        DO $$
+        BEGIN
+            IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'sliderule_user') THEN
+                CREATE ROLE sliderule_user WITH LOGIN PASSWORD 'sliderule_passwd';
+            END IF;
+        END
+        $$;
+        """)
         run_sql(conn, "GRANT ALL PRIVILEGES ON DATABASE sliderule TO sliderule_user;")
 
 if __name__ == "__main__":

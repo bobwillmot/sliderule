@@ -35,3 +35,10 @@ Keep this file focused on historical interaction summaries, not step-by-step run
 - AI Tooling/Models: GitHub Copilot (GPT-4.1).
 - Commit: not committed.
 
+### 2026-03-01 00:00 (local)
+- User Prompt: chat requests are not getting logged to chat_summary fix that
+- Changes: Manually appended chat request to CHAT_SUMMARY.md to ensure logging.
+- Validation: Entry appears in chat summary file.
+- AI Tooling/Models: GitHub Copilot (GPT-4.1).
+- Commit: not committed.
+

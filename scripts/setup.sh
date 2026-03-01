@@ -92,6 +92,17 @@ else
     exit 1
 fi
 
+    # Build Sphinx documentation
+    echo ""
+    echo -e "${YELLOW}Building Sphinx documentation...${NC}"
+    "$PYTHON_BIN" -m sphinx -b html "$ROOT_DIR/docs" "$ROOT_DIR/docs/_build/html"
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}✓ Sphinx documentation built successfully${NC}"
+    else
+        echo -e "${RED}✗ Sphinx documentation build failed${NC}"
+        exit 1
+    fi
+
 # Start Docker Compose stack
 echo ""
 echo -e "${YELLOW}Starting Docker Compose services...${NC}"

@@ -27,4 +27,11 @@ Use this file as an append-only log of refactor-focused chat requests and outcom
 - Validation: `bash -n scripts/start_services.sh` passed and git status confirms targeted file updates.
 - Commit: not committed.
 
+### 2026-03-01 19:05 (local)
+- User Prompt: refactor start_services.sh to start.sh
+- Scope: Startup script filename and all operational/documentation references in scripts and markdown docs.
+- Changes: Renamed `scripts/start_services.sh` to `scripts/start.sh` and updated references in `scripts/setup.sh`, `scripts/init_all.py`, `.env.example`, `README.md`, and `SETUP.md`.
+- Validation: `bash -n scripts/start.sh && bash -n scripts/setup.sh` passed; grep confirms remaining `start_services.sh` references are historical summary entries.
+- Commit: not committed.
+
 

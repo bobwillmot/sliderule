@@ -43,7 +43,7 @@ This will:
 ### Start both APIs
 
 ```bash
-bash scripts/start_services.sh
+bash scripts/start.sh
 ```
 
 This command now:
@@ -164,7 +164,7 @@ This will:
 ### Restart Both APIs (If Needed)
 
 ```bash
-bash scripts/start_services.sh
+bash scripts/start.sh
 ```
 
 This restarts:
@@ -244,7 +244,7 @@ curl -s http://localhost:8001/db-backend
 ### Start APIs, run sanity checks, and open all UIs
 
 ```bash
-bash scripts/start_services.sh
+bash scripts/start.sh
 ```
 
 ### Notes
@@ -314,7 +314,7 @@ export OTEL_APP_LOG_LEVEL=INFO
 Notes:
 - Log export is enabled by default. Set `OTEL_LOGS_ENABLED=false` to disable.
 - Setting `OTEL_LOGS_ENABLED=true` is optional unless you want to be explicit in your shell/session.
-- `scripts/start_services.sh` enables log export unless you override `OTEL_LOGS_ENABLED`.
+- `scripts/start.sh` enables log export unless you override `OTEL_LOGS_ENABLED`.
 - In this workspace, `otel-collector` receives OTLP logs on `localhost:4319` and forwards them to Loki.
 - If `OTEL_EXPORTER_OTLP_LOGS_ENDPOINT` is not set, the app falls back to `OTEL_EXPORTER_TEMPO_ENDPOINT`.
 

@@ -226,7 +226,7 @@ def main() -> None:
     print("\n" + "=" * 50)
     print("✓ All databases initialized successfully")
     print("=" * 50)
-    print("\nYou can now run: bash scripts/start_services.sh")
+    print("\nYou can now run: bash scripts/start.sh")
 
 
 if __name__ == "__main__":

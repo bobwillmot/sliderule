@@ -352,3 +352,17 @@ Add top-level name: sliderule to docker-compose.yml.
 - AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
 - Commit: committed and pushed in this step.
 
+### 2026-03-01 19:05 (local)
+- User Prompt: refactor start_services.sh to start.sh
+- Changes: Renamed `scripts/start_services.sh` to `scripts/start.sh` and updated live references in `scripts/setup.sh`, `scripts/init_all.py`, `.env.example`, `README.md`, and `SETUP.md`.
+- Validation: Ran `bash -n scripts/start.sh && bash -n scripts/setup.sh`; workspace search shows only historical-summary mentions of `start_services.sh`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 19:07 (local)
+- User Prompt: commit and push
+- Changes: Appended this request to `summaries/CHAT_SUMMARY.md` and staged pending script rename, docs/config updates, and refactoring summary changes.
+- Validation: Verified branch status before commit and pushed `main` to `origin/main`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: committed and pushed in this step.
+

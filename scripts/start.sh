@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Launcher script for dual Citus + CockroachDB sliderule deployment
 # Assumes databases have been initialized via scripts/setup.sh
-# Usage: bash scripts/start_services.sh
+# Usage: bash scripts/start.sh
 
 set -euo pipefail
 

@@ -13,7 +13,7 @@ This guide documents setup implementation details for sliderule and links to the
 ### Now (Clean)
 - **Single `scripts/setup.sh`** command sets up everything
 - **Unified `init_all.py`** handles both Citus and CockroachDB
-- **Simplified `start_services.sh`** just starts the APIs
+- **Simplified `start.sh`** just starts the APIs
 - **Clean `shutdown.sh`** stops APIs and Docker services safely
 - **Configuration file** (`.env.example`) documents all options
 
@@ -65,7 +65,7 @@ bash scripts/setup.sh
 .venv/bin/python scripts/init_all.py
 ```
 
-### `scripts/start_services.sh` (Updated)
+### `scripts/start.sh` (Updated)
 **Purpose:** Start both API services
 
 **Does:**
@@ -78,7 +78,7 @@ bash scripts/setup.sh
 **When to use:** Start the APIs (assumes databases are initialized)
 
 ```bash
-bash scripts/start_services.sh
+bash scripts/start.sh
 ```
 
 ### `scripts/shutdown.sh` (New)

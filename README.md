@@ -202,7 +202,9 @@ export PYTHONPATH=.
 Use IPython for tab completion, history, `%run`, and easier exploration:
 
 ```bash
-PYTHONPATH=. .venv/bin/ipython
+ipython
+# % alias ipython
+#ipython='PYTHONPATH=. .venv/bin/ipython'
 ```
 
 Example import from this workspace:

@@ -43,16 +43,17 @@ This will:
 ### Start both APIs
 
 ```bash
-bash scripts/start_services.sh &
+bash scripts/start_services.sh
 ```
 
-To open both UIs side-by-side in default web browser:
+This command now:
 
-```bash
-bash scripts/check_and_open_all_uis.sh
-```
+- Starts both APIs in the background
+- Waits for backend sanity checks to pass
+- Opens API + Grafana + local docs UIs in your default browser
 
-This opens:
+It opens:
+
 - **Citus API Docs**: http://localhost:8000/docs
 - **CockroachDB API Docs**: http://localhost:8001/docs
   - **Grafana Traces Dashboard**: http://localhost:3000/d/sliderule-traces
@@ -163,14 +164,14 @@ This will:
 ### Restart Both APIs (If Needed)
 
 ```bash
-bash scripts/start_services.sh &
+bash scripts/start_services.sh
 ```
 
 This restarts:
 - **Citus API** on http://localhost:8000
 - **CockroachDB API** on http://localhost:8001
 
-Both will be sending traces to Grafana (Tempo).
+Both will be sending traces to Grafana (Tempo), and this command also performs sanity checks and opens the UIs.
 
 ### Start Individual APIs
 
@@ -240,16 +241,10 @@ curl -s http://localhost:8000/db-backend
 curl -s http://localhost:8001/db-backend
 ```
 
-### Sanity-check books/instruments then open all UIs
+### Start APIs, run sanity checks, and open all UIs
 
 ```bash
-bash scripts/check_and_open_all_uis.sh
-```
-
-Check-only mode (no browser launch):
-
-```bash
-bash scripts/check_and_open_all_uis.sh --check-only
+bash scripts/start_services.sh
 ```
 
 ### Notes

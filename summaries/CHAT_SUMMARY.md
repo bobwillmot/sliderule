@@ -317,3 +317,38 @@ Add top-level name: sliderule to docker-compose.yml.
 - AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
 - Commit: committed and pushed in this step.
 
+### 2026-03-01 18:56 (local)
+- User Prompt: change start_services.sh to start services in the background
+- Changes: Updated `scripts/start_services.sh` to always return immediately after launching both APIs in background and removed the now-unused `SLIDERULE_DETACH` path.
+- Validation: Ran `bash -n scripts/start_services.sh` (syntax check passed) and verified pending change in git status.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 18:59 (local)
+- User Prompt: comnbine functinality in cripts/check_and_open_all_uis.sh to end of scripts/start_services.sh
+- Changes: Merged health-check and UI-opening flow from `scripts/check_and_open_all_uis.sh` into `scripts/start_services.sh`, including endpoint checks, readiness wait loop, and opening API/Grafana URLs after startup.
+- Validation: Ran `bash -n scripts/start_services.sh` (syntax check passed) and verified modified files via git status.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 19:01 (local)
+- User Prompt: update readme.md to reflect the above changes
+- Changes: Updated `README.md` to reflect the new startup flow where `scripts/start_services.sh` starts APIs in background, runs sanity checks, and opens UI pages directly (removed old separate `check_and_open_all_uis.sh` usage in docs).
+- Validation: Searched `README.md` and confirmed no remaining references to `scripts/check_and_open_all_uis.sh` or `bash scripts/start_services.sh &`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 19:03 (local)
+- User Prompt: remove check_and_open_all_uis.sh
+- Changes: Deleted `scripts/check_and_open_all_uis.sh` and updated `scripts/setup.sh` completion guidance to use `bash scripts/start_services.sh`.
+- Validation: Searched workspace references to `check_and_open_all_uis.sh`; only historical summary entries remain.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: not committed.
+
+### 2026-03-01 19:03 (local)
+- User Prompt: commit and push
+- Changes: Appended this request to `summaries/CHAT_SUMMARY.md` and prepared all pending workspace updates for commit.
+- Validation: Verified branch status before commit and pushed `main` to `origin/main`.
+- AI Tooling/Models: GitHub Copilot (GPT-5.3-Codex).
+- Commit: committed and pushed in this step.
+

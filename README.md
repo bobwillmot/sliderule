@@ -197,6 +197,20 @@ export PYTHONPATH=.
 .venv/bin/uvicorn app_citus.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
+### Interactive Python REPL (IPython)
+
+Use IPython for tab completion, history, `%run`, and easier exploration:
+
+```bash
+PYTHONPATH=. .venv/bin/ipython
+```
+
+Example import from this workspace:
+
+```python
+import app_abstract.abstract_app
+```
+
 ### View API Documentation
 
 Once the API is running, visit:
